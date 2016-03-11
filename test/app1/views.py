@@ -21,12 +21,38 @@ class Ag:
 
     def get():
         return Ag.c
+
+
 # 线体报警
 def line_error(request):
     pass
 
+#删除订单
+def delete_order(request):
+    try:
+        data = json.loads(request.POST.get('id'))
+        print(type(data))
+        Order.objects.get(order_state="未完成", ensure_code='0', car_number=None, line_id_id=data).delete()
+    except:
+        return HttpResponse('fail')
+    return HttpResponse('ok')
+
+
+# 确定订单
+def ensure(request):
+    try:
+        data = json.loads(request.POST.get('id'))
+        print(type(data))
+        o = Order.objects.filter(order_state="未完成", car_number=None, ensure_code='0', line_id_id=data)[0]
+        o.ensure_code = '1'
+        o.save()
+    except:
+        return HttpResponse('fail')
+    return HttpResponse('ok')
+
+
 # 恢复出厂设置
-def reset(request):
+def test(request):
     # c = AgvCar.AgvCar(r'.\Agv\3c_path\3c_agv_file', r'.\Agv\3c_path\turn.csv', r'.\Agv\3c_path\distance.csv')
     # c = Ag.get()
     # print(c.CalcDistance(c.FindPath('1_1', '2_1')))
@@ -185,9 +211,10 @@ def show_order(request):
         # 'goods_id__goods_station',
     ).filter(order_sn__order_state='未完成')
     return render(request, 'show.html', locals())
+    # print(data)
+    # return HttpResponse(data)
 
 
-# return HttpResponse(data)
 # ajax数据
 def show_data(request):
     data = Order_de.objects.select_related().all().values(
@@ -198,6 +225,7 @@ def show_data(request):
         'order_sn__order_time',
         'order_sn__car_number',
         'order_sn__car_number__car_state__sta_name',
+        'order_sn__ensure_code',
         # 'order_sn__work_type',
         # 'order_sn__total_time',
         # 'goods_id',
@@ -306,9 +334,9 @@ def car_sta(request):
 
 
                     # 分配任务
-        elif Order.objects.filter(order_state="未完成", car_number=None) and carr[0].car_mark == '1':
+        elif Order.objects.filter(order_state="未完成", car_number=None, ensure_code='1') and carr[0].car_mark == '1':
 
-            order = Order.objects.filter(order_state="未完成", car_number=None).order_by('id')[0]
+            order = Order.objects.filter(order_state="未完成", car_number=None, ensure_code='1').order_by('id')[0]
             car = Car.objects.all().get(car_number=num)
             # if order.work_type == '1':  # 判断先去哪个目的地
             #     line_number = order.line_id  # 线体号

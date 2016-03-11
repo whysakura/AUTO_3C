@@ -14,6 +14,7 @@ class Error(models.Model):
 class Linebody(models.Model):
     line_id = models.CharField(primary_key=True, max_length=40)  # 线体号
     station_number = models.CharField(max_length=40)  # 站点号
+    line_error = models.CharField(max_length=40, default='0')  # 线体报警
 
     def __str__(self):
         return self.line_id
@@ -34,7 +35,7 @@ class Goods(models.Model):
 class State(models.Model):
     sta_number = models.CharField(max_length=30, primary_key=True)
     sta_name = models.CharField(max_length=30)
-    line_error = models.CharField(max_length=40, default='0')  # 线体报警
+
     def __str__(self):
         return self.sta_number
 
@@ -70,7 +71,7 @@ class Order(models.Model):
     order_time = models.CharField(max_length=40)  # 创建时间
     order_state = models.CharField(max_length=40, default='未完成')  # 状态
     car_number = models.ForeignKey(Car, blank=True, null=True)  # 小车号
-    # different_car=models.CharField(max_length=40,default='0')#区别小车
+    ensure_code = models.CharField(max_length=40, default='0')  # 确认订单
     finish_time = models.CharField(max_length=40, default='', blank=True)  # 完成时间
     total_time = models.CharField(max_length=40, default='', blank=True)  # 总时间
     work_type = models.CharField(max_length=40, default='', blank=True)  # 工作类型，0表示送料，1表示送完成品

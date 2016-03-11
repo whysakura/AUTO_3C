@@ -19,13 +19,15 @@ from django.contrib import admin
 from app1 import views as gd_views
 
 urlpatterns = [
-    url(r'^ask/$',gd_views.ask,name='ask'),#提交订单
-    url(r'^show_order/$',gd_views.show_order,name='show_order'),#显示订单
-    url(r'^over_order/$',gd_views.over_order,name='over_order'),#over订单
-    url(r'^show_data/$',gd_views.show_data,name='show_data'),#ajax返回数据
-    url(r'^show_car/$',gd_views.show_car,name='show_car'),#显示小车路线
-    url(r'^car_sta/$',gd_views.car_sta,name='car_sta'),#收集小车状态
-    url(r'^reset/$',gd_views.reset),#恢复出厂设置
+    url(r'^ask/$', gd_views.ask, name='ask'),  # 提交订单
+    url(r'^show_order/$', gd_views.show_order, name='show_order'),  # 显示订单
+    url(r'^over_order/$', gd_views.over_order, name='over_order'),  # over订单
+    url(r'^show_data/$', gd_views.show_data, name='show_data'),  # ajax返回数据
+    url(r'^show_car/$', gd_views.show_car, name='show_car'),  # 显示小车路线
+    url(r'^car_sta/$', gd_views.car_sta, name='car_sta'),  # 收集小车状态
+    url(r'^test/$', gd_views.test),  # 恢复出厂设置
+    url(r'^ensure/$', gd_views.ensure),  # 确定订单
+    url(r'^delete_order/$', gd_views.delete_order),  # 订单取消
     url(r'^line_error/$', gd_views.line_error),  # 线体报警
     url(r'^admin/', admin.site.urls),
 ]
