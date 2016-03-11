@@ -1,0 +1,36 @@
+<html>
+<head>
+<meta http-equiv="refresh" content="3"/>
+<style>
+	table{
+		border:1px solid black;
+		border-collapse:collapse;
+	}
+	th,td{
+		height:40px;
+		border:1px solid black;
+		width:100px;
+		text-align:center;
+	}
+	th{
+		background-color:#bED;
+	}
+</style>
+</head>
+<body>
+<table>
+<tr>
+	<td>小车号</td>
+	<td>状态</td>
+	<td>放料时间</td>
+</tr>
+{%for i in car_data%}
+<tr>
+	<td>{{i.car_number}}</td>
+	<td>{{i.car_state__sta_name}}</td>
+	<td>{{i.down_time}}</td>
+</tr>
+{%endfor%}
+</table>
+</body>
+</html>
