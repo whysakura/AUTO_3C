@@ -37,11 +37,6 @@ def line_error(request):
 
 # 恢复出厂设置
 def reset(request):
-    # c = AgvCar.AgvCar(r'.\Agv\3c_path\3c_agv_file', r'.\Agv\3c_path\turn.csv', r'.\Agv\3c_path\distance.csv')
-    # c = Ag.get()
-    # print(c.CalcDistance(c.FindPath('1_1', '2_1')))
-    # return HttpResponse(c.FindNextPoint('1_1','27_1'))
-
     for i in range(1, 100):
         m = Mark.objects.get(mark_id=str(i))
         m.mark_state = '0'
@@ -128,8 +123,21 @@ def show_car(request):
             'distination',
         ).filter(car_number=str(a))
         lists.append(data[0]['car_state__sta_name'])
-        lists.append(data[0]['car_mark'])
-        lists.append(data[0]['distination'])
+        if  data[0]['car_mark']:
+            lists.append(data[0]['car_mark']+'号mark点')
+        else:
+            lists.append(data[0]['car_mark'])
+        # lists.append(data[0]['distination'])
+        d=data[0]['distination']
+        if d=='':
+            lists.append(data[0]['distination'])
+        else:
+            st=Linebody.objects.get(station_number=d).line_id
+            if st=='0':
+                st='取料点'
+            else:
+                st=st+'号站点'
+            lists.append(st)
         # if car.order_set.filter(order_state='未完成'):
         # 	line_id=car.order_set.filter(order_state='未完成').values()[0]['line_id_id']
         # 	line_station=Linebody.objects.get(line_id=line_id).station_number
@@ -315,7 +323,7 @@ def car_sta(request):
                     return HttpResponse(zd.station_number)
 
 
-                    # 分配任务
+        # 分配任务
         elif Order.objects.filter(order_state="未完成", car_number=None) and carr[0].car_mark == '1':
 
             order = Order.objects.filter(order_state="未完成", car_number=None).order_by('id')[0]
@@ -414,27 +422,50 @@ def car_sta(request):
 
 
     elif int(state) == 2:
-        if pos:
-            # 把小车现在的点取消，占用下一个点
-            c = Ag.get()
-            next_mark = c.FindNextPoint(pos + '_1', carr.values()[0]['distination'] + '_1')
-            print(carr.values()[0]['distination'] + '_1', '目的地')
-            # 如果随意移动了小车也要判断,
-            # if Mark.objects.filter(mark_id=pos, mark_state='1'):
-            #     Mark.objects.filter(mark_id=pos).update(mark_state='0')
-            # else:
-            #     next = c.FindNextPoint(carr.values()[0]['car_mark'] + '_1', carr.values()[0]['distination'] + '_1')
-            #     Mark.objects.filter(mark_id=next[0:-2]).update(mark_state='0')
-            print('当前点', pos, '下个点', next_mark)
-            carr.update(car_mark=pos)
-            # 查询下个点是否被占用
-            if Mark.objects.filter(mark_id=next_mark[0:-2], mark_state='1'):
-                return HttpResponse('停止')  # 小车收到这个表示要重复发送2，并且要停止
-            Mark.objects.filter(mark_id=next_mark[0:-2]).update(mark_state='1')
-
-            return HttpResponse('走')  # 小车收到这个表示不用重复发，并且可以走
+        # if pos:
+        #     # 把小车现在的点取消，占用下一个点
+        #     c = Ag.get()
+        #     next_mark = c.FindNextPoint(pos + '_1', carr.values()[0]['distination'] + '_1')
+        #     print(carr.values()[0]['distination'] + '_1', '目的地')
+        #     # 如果随意移动了小车也要判断,
+        #     # if Mark.objects.filter(mark_id=pos, mark_state='1'):
+        #     #     Mark.objects.filter(mark_id=pos).update(mark_state='0')
+        #     # else:
+        #     #     next = c.FindNextPoint(carr.values()[0]['car_mark'] + '_1', carr.values()[0]['distination'] + '_1')
+        #     #     Mark.objects.filter(mark_id=next[0:-2]).update(mark_state='0')
+        #     print('当前点', pos, '下个点', next_mark)
+        #     carr.update(car_mark=pos)
+        #     # 查询下个点是否被占用
+        #     if Mark.objects.filter(mark_id=next_mark[0:-2], mark_state='1'):
+        #         return HttpResponse('停止')  # 小车收到这个表示要重复发送2，并且要停止
+        #     Mark.objects.filter(mark_id=next_mark[0:-2]).update(mark_state='1')
+        #
+        #     return HttpResponse('走')  # 小车收到这个表示不用重复发，并且可以走
+        # else:
+        #     print('木有pos')
+        list=['64','49','34','99','37','92','40','85','78','43','71','46']
+        meet=['50','47','44','41','38','35']
+        carr.update(car_mark=pos)
+        if pos in list or list:
+            if pos in meet:
+                print('清除完毕')
+                Mark.objects.filter(mark_id=pos).update(mark_state='0')
+                return HttpResponse()
+            else:
+                # 查询下个点是否被占用
+                next_m=Mark.objects.get(mark_id=pos).next_mark
+                next=Mark.objects.get(mark_id=next_m)
+                state=next.mark_state
+                if state=='1':
+                    print('1')
+                    return HttpResponse('停止')  # 小车收到这个表示要重复发送2，并且要停止
+                next.mark_state='1'
+                next.save()
+                print('save')
+                return HttpResponse('走')  # 小车收到这个表示不用重复发，并且可以走
         else:
-            print('木有pos')
+            print('不在合并处')
+            return HttpResponse()
 
 
 

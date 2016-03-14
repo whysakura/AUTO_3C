@@ -51,7 +51,7 @@ class State(models.Model):
 class Mark(models.Model):
     mark_id = models.CharField(max_length=30, primary_key=True)
     mark_state = models.CharField(max_length=30, default='0')  # 占用状态，默认0没有占用
-
+    next_mark=models.CharField(max_length=30,default='')
     class Meta:
         ordering = ['mark_id']
 
@@ -63,7 +63,7 @@ class Mark(models.Model):
 class Car(models.Model):
     car_number = models.CharField(max_length=40, primary_key=True)  # 名称
     car_state = models.ForeignKey(State)  # 状态
-    car_mark = models.CharField(max_length=40, blank=True, default='')  # mark
+    car_mark = models.CharField(max_length=40, blank=True, default='')  # 当前mark
     default_mark = models.CharField(max_length=40, default='')  # 默认停放点
     distination = models.CharField(max_length=40, default='', blank=True)  # 下一个目的地
 
