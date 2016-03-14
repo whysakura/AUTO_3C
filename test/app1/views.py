@@ -23,17 +23,25 @@ class Ag:
         return Ag.c
 # 线体报警
 def line_error(request):
-    line_time=time.time()
+    line_time=time.time()#时间
     data = json.loads(request.body.decode('utf-8'))
-    line_id=data['line_id']
-    error_num=data['error_num']
-    print(type(line_id),type(error_num),line_time)
-    line=Lineerror()
-    line.line_id=line_id
-    line.line_time=time
-    line.line_state=error_num
-    line.save()
-    return HttpResponse(data)
+    line_id=data['line_id']#线体
+    error_num=data['error_num']#报警号
+    print(line_id,error_num,line_time)
+    if error_num=='1':
+        if Lineerror.objects.filter(line_id=line_id,line_state='1'):
+            print('已经存在')
+            return HttpResponse()
+        line=Lineerror()
+        line.line_id=line_id
+        line.start_time=line_time
+        line.line_state=error_num
+        line.save()
+    elif error_num=='2':
+        Lineerror.objects.filter(line_id=line_id,line_state='1').update(line_state=error_num)
+    else :
+        Lineerror.objects.filter(line_id=line_id,line_state='2').update(line_state=error_num,over_time=line_time)
+    return HttpResponse()
 
 # 恢复出厂设置
 def reset(request):
