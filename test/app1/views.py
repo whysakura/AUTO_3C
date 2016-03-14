@@ -23,7 +23,17 @@ class Ag:
         return Ag.c
 # 线体报警
 def line_error(request):
-    pass
+    line_time=time.time()
+    data = json.loads(request.body.decode('utf-8'))
+    line_id=data['line_id']
+    error_num=data['error_num']
+    print(type(line_id),type(error_num),line_time)
+    line=Lineerror()
+    line.line_id=line_id
+    line.line_time=time
+    line.line_state=error_num
+    line.save()
+    return HttpResponse(data)
 
 # 恢复出厂设置
 def reset(request):
@@ -206,7 +216,7 @@ def show_data(request):
         # 'goods_id__goods_type',
         # 'goods_id__goods_station',
     ).filter(order_sn__order_state='未完成')
-    data = json.dumps(list(data))
+    data = json.dumps(list(data),ensure_ascii=False)
     # print(data)
     return HttpResponse(data)
 
@@ -410,11 +420,11 @@ def car_sta(request):
             next_mark = c.FindNextPoint(pos + '_1', carr.values()[0]['distination'] + '_1')
             print(carr.values()[0]['distination'] + '_1', '目的地')
             # 如果随意移动了小车也要判断,
-            if Mark.objects.filter(mark_id=pos, mark_state='1'):
-                Mark.objects.filter(mark_id=pos).update(mark_state='0')
-            else:
-                next = c.FindNextPoint(carr.values()[0]['car_mark'] + '_1', carr.values()[0]['distination'] + '_1')
-                Mark.objects.filter(mark_id=next[0:-2]).update(mark_state='0')
+            # if Mark.objects.filter(mark_id=pos, mark_state='1'):
+            #     Mark.objects.filter(mark_id=pos).update(mark_state='0')
+            # else:
+            #     next = c.FindNextPoint(carr.values()[0]['car_mark'] + '_1', carr.values()[0]['distination'] + '_1')
+            #     Mark.objects.filter(mark_id=next[0:-2]).update(mark_state='0')
             print('当前点', pos, '下个点', next_mark)
             carr.update(car_mark=pos)
             # 查询下个点是否被占用
@@ -448,7 +458,7 @@ def car_sta(request):
                 time_cha = time.strftime('%H:%M:%S', fen)
             else:
                 fen = time.localtime(fi - od)
-                time_cha = time.strftime('%d天%H:%M:%S', fen)
+                time_cha = time.strftime('%dd%H:%M:%S', fen)
             o.total_time = time_cha
             o.save()
 

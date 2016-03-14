@@ -10,11 +10,18 @@ class Error(models.Model):
     error_name = models.CharField(max_length=40)
 
 
+# 线体报警
+class Lineerror(models.Model):
+    line_id = models.CharField(max_length=40)  # 线体号
+    line_state = models.CharField(max_length=40)  # 线体报警状态
+    line_time = models.CharField(max_length=40,default='0')  # 请求时间
+    def __str__(self):
+        return self.line_id
+
 # 线体
 class Linebody(models.Model):
     line_id = models.CharField(primary_key=True, max_length=40)  # 线体号
     station_number = models.CharField(max_length=40)  # 站点号
-
     def __str__(self):
         return self.line_id
 
@@ -35,6 +42,7 @@ class State(models.Model):
     sta_number = models.CharField(max_length=30, primary_key=True)
     sta_name = models.CharField(max_length=30)
     line_error = models.CharField(max_length=40, default='0')  # 线体报警
+
     def __str__(self):
         return self.sta_number
 
