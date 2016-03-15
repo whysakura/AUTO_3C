@@ -11,14 +11,11 @@ import json, time, random
 from itertools import chain
 from django.core import serializers
 from Agv import AgvCar
-import sys
+import sys,os
 import threading
-
-
 # Create your views here.
 class Ag:
-    c = AgvCar.AgvCar(r'.\Agv\3c_path\3c_agv_file', r'.\Agv\3c_path\turn.csv', r'.\Agv\3c_path\distance.csv')
-
+    c = AgvCar.AgvCar(r'E:\wrd\3C\test\Agv\3c_path\3c_agv_file', r'E:\wrd\3C\test\Agv\3c_path\turn.csv', r'E:\wrd\3C\test\Agv\3c_path\distance.csv')
     def get():
         return Ag.c
 # 线体报警
@@ -31,17 +28,22 @@ def line_error(request):
     if error_num=='1':
         if Lineerror.objects.filter(line_id=line_id,line_state='1'):
             print('已经存在')
-            return HttpResponse()
+            return HttpResponse('existed')
         line=Lineerror()
         line.line_id=line_id
         line.start_time=line_time
         line.line_state=error_num
         line.save()
+        return HttpResponse('1')
     elif error_num=='2':
-        Lineerror.objects.filter(line_id=line_id,line_state='1').update(line_state=error_num)
-    else :
-        Lineerror.objects.filter(line_id=line_id,line_state='2').update(line_state=error_num,over_time=line_time)
-    return HttpResponse()
+        Lineerror.objects.filter(line_id=line_id,line_state='1').update(line_state=error_num,over_time=line_time)
+        return HttpResponse('2')
+    else:
+        if Lineerror.objects.filter(line_id=line_id,line_state='2'):
+            return HttpResponse('ok')
+        return HttpResponse()
+
+
 
 # 恢复出厂设置
 def reset(request):
