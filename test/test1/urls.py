@@ -16,16 +16,18 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from app1 import views as gd_views
+from app1.views import *
 
 urlpatterns = [
-    url(r'^ask/$',gd_views.ask,name='ask'),#提交订单
-    url(r'^show_order/$',gd_views.show_order,name='show_order'),#显示订单
-    url(r'^over_order/$',gd_views.over_order,name='over_order'),#over订单
-    url(r'^show_data/$',gd_views.show_data,name='show_data'),#ajax返回数据
-    url(r'^show_car/$',gd_views.show_car,name='show_car'),#显示小车路线
-    url(r'^car_sta/$',gd_views.car_sta,name='car_sta'),#收集小车状态
-    url(r'^reset/$',gd_views.reset),#恢复出厂设置
-    url(r'^line_error/$', gd_views.line_error),  # 线体报警
+    url(r'^material_request/$', material_request.material_request, name='material_request'),  # 提交订单
+    url(r'^show_order/$', show_order.show_order, name='show_order'),  # 显示订单
+    url(r'^end_order/$', end_order.end_order, name='end_order'),  # 完成订单
+    url(r'^show_data/$', show_data.show_data, name='show_data'),  # ajax返回数据
+    url(r'^show_car/$', show_car.show_car, name='show_car'),  # 显示小车路线
+    url(r'^report_car_position/$', report_car_position.report_car_position, name='report_car_position'),  # 收集小车状态
+    url(r'^reset/$', reset.reset, name='reset'),  # 恢复出厂设置
+    url(r'^line_warn/$', line_warn.line_warn, name='line_warn'),  # 线体报警
+    url(r'^display_warn/$', display_warn.display_warn, name='display_warn'),  # 显示历史告警服务请求记录
+    url(r'^check_warn/$', check_warn.check_warn, name='check_warn'),  # 终端检查报警
     url(r'^admin/', admin.site.urls),
 ]

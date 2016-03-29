@@ -3,13 +3,11 @@ from .models import *
 # Register your models here.
 
 admin.site.register(Order)
-admin.site.register(Order_de)
-# admin.site.register(OrderPcb)
-# admin.site.register(OrderPcb_de)
-admin.site.register(Linebody)
+admin.site.register(Order_property)
+admin.site.register(Line)
 admin.site.register(Car)
-admin.site.register(State)
+admin.site.register(Station)
 admin.site.register(Goods)
 admin.site.register(Mark)
-admin.site.register(Lineerror)
+admin.site.register(Line_warn)
 # admin.site.register(Error)

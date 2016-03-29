@@ -1,133 +1,142 @@
 <!doctype html>
 <html>
 <head>
-<title>站位请求显示</title>
-<meta http-equiv='content-type' content='text/html;charset=utf-8'/>
- <meta http-equiv='refresh' content='3'/>
-<style>
-	table{
-		border:1px solid black;
-		border-collapse:collapse;
-		width:100%;
-	}
-	th,td{
-		height:40px;
-		border:1px solid black;
-		width:600px;
-		text-align:center;
-	}
-	th{
-		background-color:#bED;
-	}
-	#table1{
-		position:relative;
-	}
-	#table2{
-		margin:0px 0px auto auto;
-		position:relative;
-	}
-	#bt{
-		position:absolute;
-		right:45px;
-	}
-</style>
+    <title>站位请求显示</title>
+    <meta http-equiv='content-type' content='text/html;charset=utf-8'/>
+    <!--<meta http-equiv='refresh' content='3'/>-->
+    <style>
+        table{
+        border:1px solid black;
+        border-collapse:collapse;
+        width:100%;
+        }
+        th,td{
+        height:40px;
+        border:1px solid black;
+        width:600px;
+        text-align:center;
+        }
+        th{
+        background-color:#bED;
+        }
+        #table1{
+        position:relative;
+        }
+        #table2{
+        margin:0px 0px auto auto;
+        position:relative;
+        }
+        #bt{
+        position:relative;
+        float:right;
+        }
+    </style>
 
 </head>
 <body>
 
-	<table id='table1'>
-
-	</table>
-	<div style="height:10px"></div>
-	<div id='bt'><button onclick="tz();" style="height:30px;">查询完成订单</button></div>
-
-<!--<script>-->
-	<!--window.onload=function(){-->
-		<!--setInterval('ref();',2000);-->
-	<!--}-->
-	<!--function tz(){-->
-		<!--window.open('/over_order/');-->
-	<!--}-->
-	<!--function ref(){-->
-		<!--var xhr=new XMLHttpRequest();-->
-		<!--xhr.onreadystatechange=function(){-->
-		<!--if (this.readyState==4 && this.status==200){-->
-			<!--var tab=document.getElementById('table1');-->
-			<!---->
-			<!--var d=xhr.responseText;-->
-			<!--var dd=eval("("+d+")");-->
-			<!--console.log(dd);-->
-			<!--var inn='<tr><th>订单号</th><th>线体号</th><th>站点号</th><th>创建时间</th><th>配送小车</th><th>小车状态</th><th>状态</th></tr><tr>';-->
-			<!--for(var i in dd){//__station_code-->
-				<!--inn+='<tr>'+-->
-				<!--'<td>'+dd[i].order_sn__order_sn+'</td>'+-->
-				<!--&lt;!&ndash;'<td>'+dd[i].order_sn__work_type+'</td>'+&ndash;&gt;-->
-				<!--'<td>'+dd[i].order_sn__line_id+'</td>'+-->
-				<!--'<td>'+dd[i].order_sn__line_id__station_number+'</td>'+-->
-				<!--&lt;!&ndash;'<td>'+dd[i].goods_id__goods_station+'</td>'+&ndash;&gt;-->
-				<!--&lt;!&ndash;'<td>'+dd[i].goods_id+'</td>'+&ndash;&gt;-->
-				<!--&lt;!&ndash;'<td>'+dd[i].goods_id__goods_name+'</td>'+&ndash;&gt;-->
-				<!--&lt;!&ndash;'<td>'+dd[i].goods_id__goods_type+'</td>'+&ndash;&gt;-->
-				<!--&lt;!&ndash;'<td>'+dd[i].goods_count+'</td>'+&ndash;&gt;-->
-				<!--'<td>'+dd[i].order_sn__order_time+'</td>'+-->
-				<!--'<td>小车'+dd[i].order_sn__car_number+'</td>'+-->
-				<!--'<td>'+dd[i].order_sn__car_number__car_state__sta_name+'</td>'+-->
-				<!---->
-				<!--'<td>'+dd[i].order_sn__order_state+'</td>'+'</tr>'-->
-			<!--}-->
-			<!--// console.log(inn);-->
-			<!--tab.innerHTML=inn;-->
-			<!--}-->
-		<!--}-->
-		<!--xhr.open('GET','/show_data/',true);-->
-		<!--xhr.send()-->
-		<!--}-->
-	<!--function tijiao(k,f){-->
-		<!--var xhr=new XMLHttpRequest();-->
-		<!--car_number=document.getElementsByName('cars')[f].value;-->
-		<!--console.log(car_number,k)-->
-		<!--data='car_number='+car_number+"&order_id="+k-->
-		<!--xhr.onreadystatechange=function(){-->
-		<!--if (this.readyState==4 && this.status==200){-->
-			<!--console.log(car_number+'车ok')-->
-			<!--document.getElementsByTagName('input')[f].disabled=true;-->
-			<!--document.getElementsByName('cars')[f].setAttribute('disabled','disabled')-->
-			<!--}-->
-		<!--}-->
-		<!--xhr.open('POST','/get_car/',true)-->
-		<!--xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")-->
-		<!--xhr.send(data)-->
-	<!--}-->
-<!--&lt;!&ndash;</script>-->
 <table id='table1'>
+
+</table>
+<div style="height:10px"></div>
+<div id='bt'>
+    <button onclick="tz();" style="height:30px;">查询完成订单</button>
+</div>
+<!--<script>-->
+<!--window.onload=function(){-->
+<!--setInterval('ref();',2000);-->
+<!--}-->
+<!--function tz(){-->
+<!--window.open('/over_order/');-->
+<!--}-->
+<!--function ref(){-->
+<!--var xhr=new XMLHttpRequest();-->
+<!--xhr.onreadystatechange=function(){-->
+<!--if (this.readyState==4 && this.status==200){-->
+<!--var tab=document.getElementById('table1');-->
+<!---->
+<!--var d=xhr.responseText;-->
+<!--var dd=eval("("+d+")");-->
+<!--console.log(dd);-->
+<!--var inn='<tr><th>订单号</th><th>线体号</th><th>站点号</th><th>创建时间</th><th>配送小车</th><th>小车状态</th><th>状态</th></tr><tr>';-->
+<!--for(var i in dd){//__station_code-->
+<!--inn+='<tr>'+-->
+<!--'<td>'+dd[i].order_sn__order_sn+'</td>'+-->
+<!--&lt;!&ndash;'<td>'+dd[i].order_sn__work_type+'</td>'+&ndash;&gt;-->
+<!--'<td>'+dd[i].order_sn__line_id+'</td>'+-->
+<!--'<td>'+dd[i].order_sn__line_id__line_mark+'</td>'+-->
+<!--&lt;!&ndash;'<td>'+dd[i].goods_id__goods_station+'</td>'+&ndash;&gt;-->
+<!--&lt;!&ndash;'<td>'+dd[i].goods_id+'</td>'+&ndash;&gt;-->
+<!--&lt;!&ndash;'<td>'+dd[i].goods_id__goods_name+'</td>'+&ndash;&gt;-->
+<!--&lt;!&ndash;'<td>'+dd[i].goods_id__goods_type+'</td>'+&ndash;&gt;-->
+<!--&lt;!&ndash;'<td>'+dd[i].order_count+'</td>'+&ndash;&gt;-->
+<!--'<td>'+dd[i].order_sn__order_time+'</td>'+-->
+<!--'<td>小车'+dd[i].order_sn__car_number+'</td>'+-->
+<!--'<td>'+dd[i].order_sn__car_number__car_status__name+'</td>'+-->
+<!---->
+<!--'<td>'+dd[i].order_sn__order_status+'</td>'+'</tr>'-->
+<!--}-->
+<!--// console.log(inn);-->
+<!--tab.innerHTML=inn;-->
+<!--}-->
+<!--}-->
+<!--xhr.open('GET','/show_data/',true);-->
+<!--xhr.send()-->
+<!--}-->
+<!--function tijiao(k,f){-->
+<!--var xhr=new XMLHttpRequest();-->
+<!--car_number=document.getElementsByName('cars')[f].value;-->
+<!--console.log(car_number,k)-->
+<!--data='car_number='+car_number+"&order_id="+k-->
+<!--xhr.onreadystatechange=function(){-->
+<!--if (this.readyState==4 && this.status==200){-->
+<!--console.log(car_number+'车ok')-->
+<!--document.getElementsByTagName('input')[f].disabled=true;-->
+<!--document.getElementsByName('cars')[f].setAttribute('disabled','disabled')-->
+<!--}-->
+<!--}-->
+<!--xhr.open('POST','/get_car/',true)-->
+<!--xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")-->
+<!--xhr.send(data)-->
+<!--}-->
+<!--&lt;!&ndash;</script>-->
+<table >
     <tr>
         <th>订单号</th>
         <!--<th>工作类型</th>-->
-        <th>线体号</th>
+        <th>车间号</th>
+        <th>站点号</th>
         <!--<th>物料号</th>-->
         <!--<th>物料名称</th>-->
         <!--<th>物料数目</th>-->
-        <th>站点</th>
+        <th>mark点</th>
         <th>时间</th>
         <th>小车</th>
         <th>小车状态</th>
         <th>状态</th>
     </tr>
     {%for i in data%}
-<tr>
-    <!--<td>{{i.order_sn__work_type}}</td>-->
-    <td>{{i.order_sn__order_sn}}</td>
-    <td>{{i.order_sn__line_id}}</td>
-    <!--<td>{{i.goods_id}}</td>-->
-    <!--<td>{{i.goods_id__goods_name}}</td>-->
-    <!--<td>{{i.goods_count}}</td>-->
-    <td>{{i.order_sn__line_id__station_number}}</td>
-    <td>{{i.order_sn__order_time}}</td>
-    <td>{{i.order_sn__car_number}}</td>
-    <td>{{i.order_sn__car_number__car_state__sta_name}}</td>
-    <td>{{i.order_sn__order_state}}</td>
-</tr>
+    <tr>
+        <!--<td>{{i.order_sn__work_type}}</td>-->
+        <td>{{i.order_sn__order_sn}}</td>
+        <td>{{i.order_sn__line_id_id}}</td>
+        <td>{{i.order_sn__station_id__station_id}}</td>
+        <!--<td>{{i.goods_id}}</td>-->
+        <!--<td>{{i.goods_id__goods_name}}</td>-->
+        <!--<td>{{i.order_count}}</td>-->
+        <td>{{i.order_sn__station_id__station_mark__mark_id}}</td>
+        <td>{{i.order_sn__order_time}}</td>
+        <td>{{i.order_sn__car_number__car_number}}</td>
+        <td>{{i.order_sn__car_number__car_status}}</td>
+        <td>{{i.order_sn__order_status}}</td>
+    </tr>
     {%endfor%}
 </table>
+
+<script>
+    function tz(){
+        window.open('/end_order/');
+    }
+</script>
 </body>
 </html>
